@@ -1,5 +1,5 @@
 // reducer.js
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO } from './actionTypes';
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO } from '../actions/actionTypes';
 
 const initialState = {
     todos: [],

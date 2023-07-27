@@ -1,57 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, toggleTodo, deleteTodo } from './redux/actions';
-import { Button, TextField, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+// src/App.js (or TodoApp.js)
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from "./store/store";
+import TodoApp from "./pages/TodoApp";
 
-const TodoApp = () => {
-    const [newTodoText, setNewTodoText] = useState('');
-    const todos = useSelector((state) => state.todos);
-    const dispatch = useDispatch();
-
-    const handleAddTodo = () => {
-        if (newTodoText.trim() !== '') {
-            dispatch(addTodo(newTodoText));
-            setNewTodoText('');
-        }
-    };
-
-    const handleToggleTodo = (id) => {
-        dispatch(toggleTodo(id));
-    };
-
-    const handleDeleteTodo = (id) => {
-        dispatch(deleteTodo(id));
-    };
-
+function App() {
     return (
-        <>
-            <div style={{ maxWidth: '400px', margin: '0 auto', marginTop: '20px' }}>
-                <TextField
-                    variant="outlined"
-                    label="Add Todo"
-                    fullWidth
-                    value={newTodoText}
-                    onChange={(e) => setNewTodoText(e.target.value)}
-                />
-                <Button variant="contained" color="primary" onClick={handleAddTodo} style={{ marginTop: '10px' }}>
-                    Add
-                </Button>
-                <List style={{ marginTop: '20px' }}>
-                    {todos.map((todo) => (
-                        <ListItem key={todo.id}>
-                            <ListItemText primary={todo.text} />
-                            <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTodo(todo.id)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-                </List>
-            </div>
-        </>
+        <Provider store={store}>
+            <TodoApp />
+        </Provider>
     );
-};
+}
 
-export default TodoApp;
+export default App;
