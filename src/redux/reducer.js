@@ -1,25 +1,39 @@
-// src/redux/reducer.js
-import { INCREMENT, DECREMENT } from "./actions";
+// reducer.js
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO } from './actionTypes';
 
 const initialState = {
-    count: 0,
+    todos: [],
 };
 
-const counterReducer = (state = initialState, action) => {
+const todoReducer = (state = initialState, action) => {
     switch (action.type) {
-        case INCREMENT:
+        case ADD_TODO:
             return {
                 ...state,
-                count: state.count + 1,
+                todos: [
+                    ...state.todos,
+                    {
+                        id: state.todos.length + 1,
+                        text: action.payload.text,
+                        completed: false,
+                    },
+                ],
             };
-        case DECREMENT:
+        case TOGGLE_TODO:
             return {
                 ...state,
-                count: state.count - 1,
+                todos: state.todos.map((todo) =>
+                    todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo
+                ),
+            };
+        case DELETE_TODO:
+            return {
+                ...state,
+                todos: state.todos.filter((todo) => todo.id !== action.payload.id),
             };
         default:
             return state;
     }
 };
 
-export default counterReducer;
+export default todoReducer;

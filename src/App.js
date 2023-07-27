@@ -1,19 +1,57 @@
-// src/App.js
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { INCREMENT, DECREMENT } from "./redux/actions";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, toggleTodo, deleteTodo } from './redux/actions';
+import { Button, TextField, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-function App() {
-    const count = useSelector((state) => state.count);
+const TodoApp = () => {
+    const [newTodoText, setNewTodoText] = useState('');
+    const todos = useSelector((state) => state.todos);
     const dispatch = useDispatch();
 
-    return (
-        <div>
-            <h1>Counter: {count}</h1>
-            <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
-            <button onClick={() => dispatch({ type: DECREMENT })}>Decrement</button>
-        </div>
-    );
-}
+    const handleAddTodo = () => {
+        if (newTodoText.trim() !== '') {
+            dispatch(addTodo(newTodoText));
+            setNewTodoText('');
+        }
+    };
 
-export default App;
+    const handleToggleTodo = (id) => {
+        dispatch(toggleTodo(id));
+    };
+
+    const handleDeleteTodo = (id) => {
+        dispatch(deleteTodo(id));
+    };
+
+    return (
+        <>
+            <div style={{ maxWidth: '400px', margin: '0 auto', marginTop: '20px' }}>
+                <TextField
+                    variant="outlined"
+                    label="Add Todo"
+                    fullWidth
+                    value={newTodoText}
+                    onChange={(e) => setNewTodoText(e.target.value)}
+                />
+                <Button variant="contained" color="primary" onClick={handleAddTodo} style={{ marginTop: '10px' }}>
+                    Add
+                </Button>
+                <List style={{ marginTop: '20px' }}>
+                    {todos.map((todo) => (
+                        <ListItem key={todo.id}>
+                            <ListItemText primary={todo.text} />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTodo(todo.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    ))}
+                </List>
+            </div>
+        </>
+    );
+};
+
+export default TodoApp;

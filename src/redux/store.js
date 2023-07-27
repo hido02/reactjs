@@ -1,7 +1,7 @@
-// src/redux/store.js
-import { createStore } from "redux";
-import counterReducer from "./reducer";
+// store.js
+import { createStore } from 'redux';
+import todoReducer from './reducer';
 
-const store = createStore(counterReducer);
+const store = createStore(todoReducer);
 
 export default store;
