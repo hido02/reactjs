@@ -1,30 +1,19 @@
-import { Route, Routes } from 'react-router-dom';
-import Layout from './Layout';
-import About from './pages/About';
-import Article from './pages/Article';
-import Articles from './pages/Articles';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import MyPage from './pages/MyPage';
-import NotFound from './pages/NotFound';
-import Profile from './pages/Profile';
+// src/App.js
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { INCREMENT, DECREMENT } from "./redux/actions";
 
-const App = () => {
+function App() {
+    const count = useSelector((state) => state.count);
+    const dispatch = useDispatch();
+
     return (
-        <Routes>
-            <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/profiles/:username" element={<Profile />} />
-            </Route>
-            <Route path="/articles" element={<Articles />}>
-                <Route path=":id" element={<Article />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div>
+            <h1>Counter: {count}</h1>
+            <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
+            <button onClick={() => dispatch({ type: DECREMENT })}>Decrement</button>
+        </div>
     );
-};
+}
 
 export default App;
