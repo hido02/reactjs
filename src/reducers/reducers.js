@@ -2,9 +2,11 @@
 
 import { combineReducers } from 'redux';
 import todoReducer from "./todoReducer";
+import { discussionReducer } from './discussionReducer';
 
 const rootReducer = combineReducers({
     todoReducer,
+    discussionReducer,
 });
 
 export default rootReducer;
